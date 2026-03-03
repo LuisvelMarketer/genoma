@@ -75,6 +75,81 @@ A diferencia de los prompts estáticos tradicionales, Genoma está diseñado par
 
 ---
 
+## 🧬 PGA - Prompt Genómico Autoevolutivo (v2.0)
+
+**Nuevo en v2.0**: Sistema completo de evolución genómica para agentes de IA.
+
+### Arquitectura Genómica de 3 Cromosomas
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    GenomeV2                              │
+├─────────────────────────────────────────────────────────┤
+│  C0 (Inmutable)    │ Identidad, ética, seguridad        │
+│  C1 (Operativo)    │ Genes mutables con fitness 6D      │
+│  C2 (Epigenético)  │ Adaptaciones del usuario           │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Componentes Principales
+
+| Componente | Descripción |
+|:-----------|:------------|
+| **GenomeKernel** | Protección criptográfica SHA-256 de C0, rollback automático |
+| **FitnessTracker** | Evaluación 6D (precisión, velocidad, costo, seguridad, satisfacción, adaptabilidad) |
+| **MutationOperator** | Estrategias: LLM rewrite, parameter tweak, simplify |
+| **LayeredMemory** | Memoria semántica por usuario con expiración |
+| **GeneRegistry** | Repositorio central de genes compartidos |
+
+### Integración No Invasiva
+
+```typescript
+import { GenomaAgentPGABridge, getGlobalPGABridge } from './src/pga';
+
+// Obtener bridge global
+const bridge = getGlobalPGABridge();
+
+// Antes de ejecutar agente
+const evolvedPrompt = await bridge.beforeExecution({
+  agentId: 'mi-agente',
+  userId: 'user-123',
+  originalPrompt: basePrompt
+});
+
+// Después de ejecutar
+await bridge.afterExecution({
+  agentId: 'mi-agente',
+  userId: 'user-123',
+  result: { response, tokensUsed, latencyMs }
+});
+```
+
+### Configuración PGA
+
+```typescript
+// src/pga/config/pga-integration.config.ts
+{
+  features: {
+    enabled: true,
+    evolutionEnabled: true,
+    autoMutation: true,
+    autoRollback: true
+  },
+  evolution: {
+    mutationInterval: 10,
+    fitnessThreshold: 0.6,
+    rollbackThreshold: 0.15
+  }
+}
+```
+
+### Documentación PGA
+- [Arquitectura Completa](docs/pga/ARCHITECTURE.md)
+- [Guía de Integración](docs/pga/INTEGRATION.md)
+- [API Reference](docs/pga/API.md)
+
+---
+
 ## 🚀 Instalación
 
 ### Requisitos Previos
