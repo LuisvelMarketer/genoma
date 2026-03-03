@@ -1,0 +1,11 @@
+{
+  "name": "@genoma/irc",
+  "version": "2026.3.2",
+  "description": "Genoma IRC channel plugin",
+  "type": "module",
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

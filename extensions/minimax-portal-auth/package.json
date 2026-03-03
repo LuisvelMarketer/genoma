@@ -1,0 +1,12 @@
+{
+  "name": "@genoma/minimax-portal-auth",
+  "version": "2026.3.2",
+  "private": true,
+  "description": "Genoma MiniMax Portal OAuth provider plugin",
+  "type": "module",
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

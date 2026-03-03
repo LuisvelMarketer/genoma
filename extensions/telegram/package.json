@@ -1,0 +1,12 @@
+{
+  "name": "@genoma/telegram",
+  "version": "2026.3.2",
+  "private": true,
+  "description": "Genoma Telegram channel plugin",
+  "type": "module",
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

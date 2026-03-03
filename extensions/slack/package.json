@@ -1,0 +1,12 @@
+{
+  "name": "@genoma/slack",
+  "version": "2026.3.2",
+  "private": true,
+  "description": "Genoma Slack channel plugin",
+  "type": "module",
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

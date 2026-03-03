@@ -1,0 +1,12 @@
+{
+  "name": "@genoma/copilot-proxy",
+  "version": "2026.3.2",
+  "private": true,
+  "description": "Genoma Copilot Proxy provider plugin",
+  "type": "module",
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

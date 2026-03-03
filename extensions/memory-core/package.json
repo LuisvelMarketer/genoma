@@ -1,0 +1,15 @@
+{
+  "name": "@genoma/memory-core",
+  "version": "2026.3.2",
+  "private": true,
+  "description": "Genoma core memory search plugin",
+  "type": "module",
+  "peerDependencies": {
+    "genoma": ">=2026.3.1"
+  },
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@genoma/google-gemini-cli-auth",
+  "version": "2026.3.2",
+  "private": true,
+  "description": "Genoma Gemini CLI OAuth provider plugin",
+  "type": "module",
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}

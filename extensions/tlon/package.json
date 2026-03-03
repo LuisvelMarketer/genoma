@@ -1,0 +1,29 @@
+{
+  "name": "@genoma/tlon",
+  "version": "2026.3.2",
+  "description": "Genoma Tlon/Urbit channel plugin",
+  "type": "module",
+  "dependencies": {
+    "@urbit/aura": "^3.0.0"
+  },
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "channel": {
+      "id": "tlon",
+      "label": "Tlon",
+      "selectionLabel": "Tlon (Urbit)",
+      "docsPath": "/channels/tlon",
+      "docsLabel": "tlon",
+      "blurb": "decentralized messaging on Urbit; install the plugin to enable.",
+      "order": 90,
+      "quickstartAllowFrom": true
+    },
+    "install": {
+      "npmSpec": "@genoma/tlon",
+      "localPath": "extensions/tlon",
+      "defaultChoice": "npm"
+    }
+  }
+}

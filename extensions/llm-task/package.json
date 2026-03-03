@@ -1,0 +1,12 @@
+{
+  "name": "@genoma/llm-task",
+  "version": "2026.3.2",
+  "private": true,
+  "description": "Genoma JSON-only LLM task plugin",
+  "type": "module",
+  "genoma": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}
