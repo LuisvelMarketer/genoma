@@ -7,14 +7,14 @@
 ### Agente Inteligente Autoevolutivo
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org)
+[![Node.js](https://img.shields.io/badge/Node.js-22%2B-green.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org)
 
 **Un agente de IA que aprende, muta y mejora solo — como el ADN.**
 
 Created by **Luis Alfredo Velasquez Duran**
 
-[Inicio Rapido](#-inicio-rapido) · [PGA](#-pga---prompt-genomico-autoevolutivo) · [Extensiones](#-extensiones) · [Arquitectura](#-arquitectura) · [Contribuir](#-contribuir)
+[Inicio Rapido](#-inicio-rapido) · [Interfaz Web](#-interfaz-web) · [PGA](#-pga---prompt-genomico-autoevolutivo) · [Extensiones](#-extensiones) · [Arquitectura](#-arquitectura) · [Contribuir](#-contribuir)
 
 </div>
 
@@ -36,21 +36,32 @@ Created by **Luis Alfredo Velasquez Duran**
 
 ## Inicio Rapido
 
+### Para Usuarios
+
+```bash
+# Instalacion interactiva
+npx genoma-setup
+
+# O instalacion rapida con OpenAI
+npx genoma-setup --quick --provider openai
+```
+
+### Para Desarrolladores
+
 ```bash
 # Clonar el repositorio
-git clone https://github.com/LuisvelMarketer/Genome.git
-cd Genome
+git clone https://github.com/LuisvelMarketer/genome.git
+cd genome
 
 # Instalar dependencias
-npm install
+pnpm install
 
 # Configurar
 cp .env.example .env
 nano .env  # Agregar tus API keys
 
-# Construir e iniciar
-npm run build
-npm start
+# Iniciar en modo desarrollo
+pnpm dev
 ```
 
 ### Con Docker
@@ -62,6 +73,43 @@ docker run -d --name genome \
   -p 3000:3000 \
   genome
 ```
+
+> Para instrucciones detalladas de instalacion, configuracion de canales y solucion de problemas, consulta la [Guia de Instalacion](INSTALL.md).
+
+---
+
+## Interfaz Web
+
+Genome incluye un panel de control web completo para interactuar con el agente y gestionar todos los servicios.
+
+```bash
+cd ui
+pnpm install
+pnpm dev
+# Acceder en http://localhost:5173
+```
+
+### Funcionalidades
+
+| Modulo            | Descripcion                                                   |
+| :---------------- | :------------------------------------------------------------ |
+| **Chat**          | Interfaz de conversacion en tiempo real con streaming         |
+| **Canales**       | Gestion de integraciones (Telegram, Discord, WhatsApp, etc.)  |
+| **Agentes**       | Configuracion de agentes, tools, skills y cron jobs           |
+| **Sesiones**      | Historial y gestion de sesiones de usuario                    |
+| **Uso**           | Metricas y analiticas de consumo                              |
+| **Configuracion** | Ajustes del sistema con validacion de formularios             |
+| **Cron**          | Programacion de tareas automaticas con historial de ejecucion |
+| **Logs**          | Visor de eventos con filtros en tiempo real                   |
+| **Debug**         | Utilidades de depuracion e invocacion de metodos              |
+
+### Idiomas Soportados
+
+English, Deutsch, Portugues (BR), Chino Simplificado, Chino Tradicional
+
+### Stack Tecnologico
+
+Construido con [Lit](https://lit.dev/) (Web Components), [Vite](https://vitejs.dev/) y TypeScript.
 
 ---
 
@@ -174,6 +222,10 @@ Genome/
 │   ├── commands/               # Comandos CLI
 │   ├── hooks/                  # Sistema de hooks
 │   └── ...
+├── ui/                         # Panel de control web (Lit + Vite)
+│   └── src/
+│       ├── ui/                 # Componentes: chat, canales, agentes, config
+│       └── i18n/               # Traducciones (en, de, pt-BR, zh-CN, zh-TW)
 ├── extensions/                 # 42+ extensiones de mensajeria
 ├── apps/                       # Apps nativas (iOS, Android, macOS)
 └── docs/                       # Documentacion
