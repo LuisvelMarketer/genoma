@@ -29,10 +29,7 @@ import {
   isProfileDecorated,
 } from "./chrome.profile-decoration.js";
 import type { ResolvedBrowserConfig, ResolvedBrowserProfile } from "./config.js";
-import {
-  DEFAULT_GENOMA_BROWSER_COLOR,
-  DEFAULT_GENOMA_BROWSER_PROFILE_NAME,
-} from "./constants.js";
+import { DEFAULT_GENOMA_BROWSER_COLOR, DEFAULT_GENOMA_BROWSER_PROFILE_NAME } from "./constants.js";
 
 const log = createSubsystemLogger("browser").child("chrome");
 
@@ -324,7 +321,7 @@ export async function launchGenomaChrome(
         name: profile.name,
         color: profile.color,
       });
-      log.info(`🦞 genoma browser profile decorated (${profile.color})`);
+      log.info(`🧬 genoma browser profile decorated (${profile.color})`);
     } catch (err) {
       log.warn(`genoma browser profile decoration failed: ${String(err)}`);
     }
@@ -381,7 +378,7 @@ export async function launchGenomaChrome(
 
   const pid = proc.pid ?? -1;
   log.info(
-    `🦞 genoma browser started (${exe.kind}) profile "${profile.name}" on 127.0.0.1:${profile.cdpPort} (pid ${pid})`,
+    `🧬 genoma browser started (${exe.kind}) profile "${profile.name}" on 127.0.0.1:${profile.cdpPort} (pid ${pid})`,
   );
 
   return {
@@ -394,10 +391,7 @@ export async function launchGenomaChrome(
   };
 }
 
-export async function stopGenomaChrome(
-  running: RunningChrome,
-  timeoutMs = CHROME_STOP_TIMEOUT_MS,
-) {
+export async function stopGenomaChrome(running: RunningChrome, timeoutMs = CHROME_STOP_TIMEOUT_MS) {
   const proc = running.proc;
   if (proc.killed) {
     return;

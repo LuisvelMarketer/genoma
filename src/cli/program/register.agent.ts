@@ -219,7 +219,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.genoma.ai/cli/agent
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['genoma agents set-identity --agent main --name "Genoma" --emoji "🦞"', "Set name + emoji."],
+  ['genoma agents set-identity --agent main --name "Genome" --emoji "🧬"', "Set name + emoji."],
   ["genoma agents set-identity --agent main --avatar avatars/genoma.png", "Set avatar path."],
   [
     "genoma agents set-identity --workspace ~/.genoma/workspace --from-identity",

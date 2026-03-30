@@ -385,10 +385,7 @@ const formatMediaUnderstandingLine = (decisions?: ReadonlyArray<MediaUnderstandi
   return `📎 Media: ${parts.join(" · ")}`;
 };
 
-const formatVoiceModeLine = (
-  config?: GenomaConfig,
-  sessionEntry?: SessionEntry,
-): string | null => {
+const formatVoiceModeLine = (config?: GenomaConfig, sessionEntry?: SessionEntry): string | null => {
   if (!config) {
     return null;
   }
@@ -656,7 +653,7 @@ export function buildStatusMessage(args: StatusArgs): string {
       } (${fallbackState.reason ?? "selected model unavailable"})`
     : null;
   const commit = resolveCommitHash();
-  const versionLine = `🦞 Genoma ${VERSION}${commit ? ` (${commit})` : ""}`;
+  const versionLine = `🧬 Genome ${VERSION}${commit ? ` (${commit})` : ""}`;
   const usagePair = formatUsagePair(inputTokens, outputTokens);
   const cacheLine = formatCacheLine(inputTokens, cacheRead, cacheWrite);
   const costLine = costLabel ? `💵 Cost: ${costLabel}` : null;
