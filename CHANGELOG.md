@@ -8,7 +8,7 @@ Todos los cambios notables de este proyecto seran documentados en este archivo.
 
 #### Agregado
 
-- **Compresion evolutiva de tokens** en PGA:
+- **Compresion evolutiva de tokens** (legacy PGA, replaced by GSEP):
   - Estrategia `compress` en MutationOperator con gate de compresion
   - Presupuesto de tokens (2000 max) en PromptAssembler con ranking por eficiencia
   - Compresion eager al inicializar (`eagerCompressGenes`)
@@ -31,11 +31,11 @@ Todos los cambios notables de este proyecto seran documentados en este archivo.
 
 ## [3.0.0] - 2026-03-01
 
-### Sistema PGA (Prompt Genomico Autoevolutivo)
+### Sistema PGA (legacy — replaced by GSEP in v5.0)
 
 #### Agregado
 
-- **PGA Core** - Sistema de evolucion genomica:
+- **PGA Core** (now superseded by `@gsep/core`) - Sistema de evolucion genomica:
   - GenomeV2 con 3 cromosomas (C0, C1, C2)
   - GenomeKernel para integridad de C0
   - FitnessTracker con metricas 6D

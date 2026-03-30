@@ -48,7 +48,7 @@ pnpm dev
 | Requisito  | Propósito          |
 | ---------- | ------------------ |
 | Docker     | Sandbox isolation  |
-| PostgreSQL | Persistencia PGA   |
+| PostgreSQL | Persistencia GSEP  |
 | Playwright | Browser automation |
 
 ---
@@ -67,7 +67,7 @@ Características:
 
 - ✅ Wizard interactivo
 - ✅ Configuración simplificada
-- ✅ Auto-evolución PGA
+- ✅ Auto-evolución GSEP
 - ✅ Logs optimizados
 
 ### Modo Desarrollador
@@ -212,7 +212,7 @@ Habilitado por defecto.
 ├── genoma.json       # Configuración principal
 ├── state/            # Estado persistente
 │   ├── gateway.db    # Base de datos gateway
-│   └── pga/          # Datos de evolución
+│   └── gsep/         # Datos de evolución
 └── logs/             # Logs de aplicación
 ```
 

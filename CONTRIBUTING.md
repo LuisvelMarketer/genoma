@@ -60,7 +60,7 @@ We are currently prioritizing:
 
 - **Stability**: Fixing edge cases in channel connections (WhatsApp/Telegram).
 - **UX**: Improving the onboarding wizard and error messages.
-- **PGA**: Evolving the Prompt Genomic Auto-Evolving system for token optimization.
+- **GSEP**: Integrating Genomic Self-Evolving Prompts (`@gsep/core`) for autonomous prompt evolution.
 - **Performance**: Optimizing token usage and compaction logic.
 
 Check the [GitHub Issues](https://github.com/LuisvelMarketer/Genome/issues) for "good first issue" labels!

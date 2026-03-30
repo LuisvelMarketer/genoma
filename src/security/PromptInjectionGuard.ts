@@ -8,7 +8,7 @@
  * @since 2026-03-03 | Genoma v3.0
  */
 
-import { sha256 } from "../pga/utils/hash.js";
+import { sha256 } from "../gsep/utils/hash.js";
 
 // Guard configuration
 export interface GuardConfig {

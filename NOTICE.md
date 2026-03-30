@@ -69,7 +69,7 @@ Las siguientes modificaciones han sido realizadas al código base de Genome:
 
 ### Planificadas (Futuras Versiones)
 
-- Integración con PGA Platform (Prompt Genómico Autoevolutivo)
+- Integración con GSEP Platform (Genomic Self-Evolving Prompts)
 - Sistema de seguridad Orbis
 - Instalador npm profesional
 

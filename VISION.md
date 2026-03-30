@@ -22,7 +22,7 @@ Priority:
 - Security and safe defaults
 - Bug fixes and stability
 - Setup reliability and first-run UX
-- PGA token compression and evolutionary optimization
+- GSEP integration (Genomic Self-Evolving Prompts) for autonomous prompt evolution
 
 Next priorities:
 

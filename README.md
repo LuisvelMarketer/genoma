@@ -14,7 +14,7 @@
 
 Created by **Luis Alfredo Velasquez Duran**
 
-[Inicio Rapido](#-inicio-rapido) · [Interfaz Web](#-interfaz-web) · [PGA](#-pga---prompt-genomico-autoevolutivo) · [Extensiones](#-extensiones) · [Arquitectura](#-arquitectura) · [Contribuir](#-contribuir)
+[Inicio Rapido](#-inicio-rapido) · [Interfaz Web](#-interfaz-web) · [GSEP](#-gsep---genomic-self-evolving-prompts) · [Extensiones](#-extensiones) · [Arquitectura](#-arquitectura) · [Contribuir](#-contribuir)
 
 </div>
 
@@ -113,63 +113,48 @@ Construido con [Lit](https://lit.dev/) (Web Components), [Vite](https://vitejs.d
 
 ---
 
-## PGA - Prompt Genomico Autoevolutivo
+## GSEP - Genomic Self-Evolving Prompts
 
 El corazon de Genome. Un sistema de evolucion genomica que optimiza prompts automaticamente.
+Powered by [`@gsep/core`](https://github.com/gsepcore/gsep).
 
-### Arquitectura de 3 Cromosomas
+### Arquitectura de 5 Cromosomas
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│                       GenomeV2                            │
+│                       GSEP Genome                         │
 ├──────────────────────────────────────────────────────────┤
-│  C0 (Inmutable)    │ Identidad, etica, seguridad         │
-│  C1 (Operativo)    │ Genes mutables con fitness 6D       │
-│  C2 (Epigenetico)  │ Adaptaciones por usuario            │
+│  C0 (Inmutable)    │ Identidad, etica, seguridad (SHA-256)│
+│  C1 (Operativo)    │ Genes mutables con fitness 6D        │
+│  C2 (Epigenetico)  │ Adaptaciones por usuario             │
+│  C3 (Firewall)     │ Defensa de input (57 patrones)       │
+│  C4 (Inmune)       │ Deteccion de output infectado        │
 └──────────────────────────────────────────────────────────┘
 ```
 
-### Componentes
+### Integracion
 
-| Componente           | Funcion                                                                            |
-| :------------------- | :--------------------------------------------------------------------------------- |
-| **GenomeKernel**     | Proteccion SHA-256 de C0, rollback automatico                                      |
-| **FitnessTracker**   | Evaluacion 6D: precision, velocidad, costo, seguridad, satisfaccion, adaptabilidad |
-| **MutationOperator** | 5 estrategias: `llm_rewrite`, `parameter_tweak`, `simplify`, `combine`, `compress` |
-| **PromptAssembler**  | Ensamblado con presupuesto de tokens (2000 max) y ranking por eficiencia           |
-| **LayeredMemory**    | Memoria semantica por usuario con expiracion                                       |
-| **GeneRegistry**     | Repositorio central de genes compartidos                                           |
-
-### Compresion Evolutiva de Tokens
-
-Genome nunca descarta un gen funcional por ser costoso — lo **comprime evolutivamente**:
-
-- **Estrategia `compress`**: LLM comprime instrucciones preservando funcionalidad
-- **Presupuesto de tokens**: 2000 tokens max para C1 con ranking por valor-por-token
-- **Compresion eager**: Genes grandes se comprimen al inicializar, no despues de 50 ejecuciones
-- **Gate de compresion**: Rechaza si el resultado no es mas corto que el original
-
-### Uso
+Genome usa GSEP via middleware — dos hooks que envuelven tu agente:
 
 ```typescript
-import { GenomaAgentPGABridge, getGlobalPGABridge } from "./src/pga";
+import { GSEPMiddleware } from "@gsep/core";
 
-const bridge = getGlobalPGABridge();
+const mw = await GSEPMiddleware.create({
+  llm: myLLMAdapter,
+  name: "genome-agent",
+});
 
 // Antes de ejecutar el agente
-const evolvedPrompt = await bridge.beforeExecution({
-  agentId: "mi-agente",
+const { prompt, rejected } = await mw.before(systemPrompt, {
+  message: userMessage,
   userId: "user-123",
-  originalPrompt: basePrompt,
 });
 
 // Despues de ejecutar
-await bridge.afterExecution({
-  agentId: "mi-agente",
-  userId: "user-123",
-  result: { response, tokensUsed, latencyMs },
-});
+await mw.after(response, { userId: "user-123", feedback: score });
 ```
+
+> Documentacion completa: [gsepcore.com](https://gsepcore.com)
 
 ---
 
@@ -210,15 +195,7 @@ await bridge.afterExecution({
 ```
 Genome/
 ├── src/
-│   ├── pga/                    # PGA - Sistema de evolucion genomica
-│   │   ├── core/               # GenomeKernel, PromptAssembler, FitnessTracker
-│   │   ├── evolution/          # MutationOperator (5 estrategias)
-│   │   ├── evaluation/         # Evaluator hibrido (heuristico + LLM)
-│   │   ├── integration/        # AgentIntegration, Bridge, API
-│   │   ├── memory/             # LayeredMemory semantica
-│   │   ├── types/              # GenomeV2, OperativeGene, FitnessVector
-│   │   ├── utils/              # tokens.ts, hash.ts, serialization.ts
-│   │   └── config/             # Configuracion PGA
+│   ├── gsep/                   # GSEP integration (via @gsep/core middleware)
 │   ├── security/               # Prompt injection guard, canary tokens, output scanner
 │   ├── commands/               # Comandos CLI
 │   ├── hooks/                  # Sistema de hooks
@@ -255,7 +232,7 @@ Genome viene **seguro por defecto**. No necesitas configurar nada extra para usa
 | 4    | **Output Scanner**       | Escaneo de respuestas del LLM antes de entregarlas al usuario — detecta fragments del system prompt, canary leaks e injection echoes                                                                                |
 | 5    | **Rate Limiter**         | Sliding-window por sender (5 intentos/min, lockout de 10 min) para frenar ataques repetidos                                                                                                                         |
 
-**PGA (evolucion de prompts):**
+**GSEP (evolucion de prompts):**
 
 - **Sistema Inmune**: Auto-rollback cuando un gen tiene rendimiento degradado
 - **MutationEvaluator**: Sandbox testing de mutaciones antes del deploy
@@ -279,27 +256,17 @@ DISCORD_BOT_TOKEN=...
 WHATSAPP_PHONE_NUMBER=...
 ```
 
-### PGA Config
+### GSEP Config
 
-```typescript
-// src/pga/config/pga-integration.config.ts
-{
-  features: {
-    enabled: true,
-    evolutionEnabled: true,
-    autoMutation: true,
-    autoRollback: true
-  },
-  evolution: {
-    mutationInterval: 10,
-    fitnessThreshold: 0.6,
-    rollbackThreshold: 0.15,
-    mutationStrategies: ['llm_rewrite', 'simplify', 'compress'],
-    eagerCompress: true,
-    c1TokenBudget: 2000
-  }
-}
+```env
+# Enable genomic self-evolution
+GSEP_ENABLED=true
+GSEP_AUTO_MUTATION=true
+GSEP_AUTO_ROLLBACK=true
+GSEP_STORAGE_TYPE=database
 ```
+
+> Full GSEP configuration: see [`@gsep/core` docs](https://github.com/gsepcore/gsep)
 
 ---
 
@@ -312,9 +279,9 @@ WHATSAPP_PHONE_NUMBER=...
 - [x] 54+ skills integrados
 - [x] Browser automation con Playwright
 
-### v2.0 - PGA
+### v2.0 - Evolution
 
-- [x] Sistema PGA (Prompt Genomico Autoevolutivo)
+- [x] Sistema de evolucion genomica (legacy PGA, now migrating to GSEP)
 - [x] Evolucion y aprendizaje automatico
 - [x] Registro genomico de agentes
 
