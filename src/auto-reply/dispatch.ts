@@ -45,7 +45,10 @@ export async function dispatchInboundMessage(params: {
   const messageText = finalized.BodyForAgent || finalized.Body;
   if (messageText) {
     const { scanInboundMessage } = await import("../security/scan-inbound-message.js");
-    const senderKey = finalized.SenderNumber || finalized.From || undefined;
+    const senderKey =
+      ((finalized as Record<string, unknown>).SenderNumber as string | undefined) ||
+      finalized.From ||
+      undefined;
     const injectionScan = scanInboundMessage(messageText, senderKey);
     if (!injectionScan.allowed) {
       console.log(
