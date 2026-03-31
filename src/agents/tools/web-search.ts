@@ -883,7 +883,7 @@ async function runPerplexitySearch(params: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${params.apiKey}`,
           "HTTP-Referer": "https://genoma.ai",
-          "X-Title": "Genoma Web Search",
+          "X-Title": "Genome Web Search",
         },
         body: JSON.stringify(body),
       },

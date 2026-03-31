@@ -308,7 +308,7 @@ export async function fetchMinimaxUsage(
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "MM-API-Source": "Genoma",
+        "MM-API-Source": "Genome",
       },
     },
     timeoutMs,

@@ -8,7 +8,7 @@ export function buildPairingReply(params: {
 }): string {
   const { channel, idLine, code } = params;
   return [
-    "Genoma: access not configured.",
+    "Genome: access not configured.",
     "",
     idLine,
     "",

@@ -380,10 +380,9 @@ export async function finalizeOnboardingWizard(
   }
 
   await prompter.note(
-    [
-      "Back up your agent workspace.",
-      "Docs: https://docs.genoma.ai/concepts/agent-workspace",
-    ].join("\n"),
+    ["Back up your agent workspace.", "Docs: https://docs.genoma.ai/concepts/agent-workspace"].join(
+      "\n",
+    ),
     "Workspace backup",
   );
 
@@ -448,7 +447,7 @@ export async function finalizeOnboardingWizard(
       : [
           "If you want your agent to be able to search the web, you’ll need an API key.",
           "",
-          "Genoma uses Brave Search for the `web_search` tool. Without a Brave Search API key, web search won’t work.",
+          "Genome uses Brave Search for the `web_search` tool. Without a Brave Search API key, web search won’t work.",
           "",
           "Set it up interactively:",
           `- Run: ${formatCliCommand("genoma configure --section web")}`,

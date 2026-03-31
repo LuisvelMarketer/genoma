@@ -6,7 +6,7 @@
  * 2. System prompt fragments in output
  * 3. Injection echo (LLM parroting injection instructions)
  *
- * @since 2026-03-04 | Genoma v3.0
+ * @since 2026-03-04 | Genome v3.0
  */
 
 import { isCanaryLeaked } from "./canary-token.js";

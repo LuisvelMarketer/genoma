@@ -467,7 +467,7 @@ export function buildAgentSystemPrompt(params: {
     "",
     ...safetySection,
     "## Genoma CLI Quick Reference",
-    "Genoma is controlled via subcommands. Do not invent commands.",
+    "Genome is controlled via subcommands. Do not invent commands.",
     "To manage the Gateway daemon service (start/stop/restart):",
     "- genoma gateway status",
     "- genoma gateway start",

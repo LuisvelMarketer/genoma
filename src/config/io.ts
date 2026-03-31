@@ -582,7 +582,7 @@ function warnIfConfigFromFuture(cfg: GenomaConfig, logger: Pick<typeof console, 
   }
   if (cmp < 0) {
     logger.warn(
-      `Config was last written by a newer Genoma (${touched}); current version is ${VERSION}.`,
+      `Config was last written by a newer Genome (${touched}); current version is ${VERSION}.`,
     );
   }
 }
@@ -1326,10 +1326,7 @@ export function clearConfigCache(): void {
   configCache = null;
 }
 
-export function setRuntimeConfigSnapshot(
-  config: GenomaConfig,
-  sourceConfig?: GenomaConfig,
-): void {
+export function setRuntimeConfigSnapshot(config: GenomaConfig, sourceConfig?: GenomaConfig): void {
   runtimeConfigSnapshot = config;
   runtimeConfigSourceSnapshot = sourceConfig ?? null;
   clearConfigCache();

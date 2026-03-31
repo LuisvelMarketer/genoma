@@ -30,12 +30,12 @@ async function requireRiskAcknowledgement(params: {
     [
       "Security warning — please read.",
       "",
-      "Genoma is a hobby project and still in beta. Expect sharp edges.",
+      "Genome is a hobby project and still in beta. Expect sharp edges.",
       "By default, Genoma is a personal agent: one trusted operator boundary.",
       "This bot can read files and run actions if tools are enabled.",
       "A bad prompt can trick it into doing unsafe things.",
       "",
-      "Genoma is not a hostile multi-tenant boundary by default.",
+      "Genome is not a hostile multi-tenant boundary by default.",
       "If multiple users can message one tool-enabled agent, they share that delegated tool authority.",
       "",
       "If you’re not comfortable with security hardening and access control, don’t run Genoma.",
@@ -75,7 +75,7 @@ export async function runOnboardingWizard(
 ) {
   const onboardHelpers = await import("../commands/onboard-helpers.js");
   onboardHelpers.printWizardHeader(runtime);
-  await prompter.intro("Genoma onboarding");
+  await prompter.intro("Genome onboarding");
   await requireRiskAcknowledgement({ opts, prompter });
 
   const snapshot = await readConfigFileSnapshot();

@@ -59,7 +59,7 @@ export async function handlePortError(
       if (/genoma|src\/index\.ts|dist\/index\.js/.test(details)) {
         runtime.error(
           warn(
-            "It looks like another Genoma instance is already running. Stop it or pick a different port.",
+            "It looks like another Genome instance is already running. Stop it or pick a different port.",
           ),
         );
       }

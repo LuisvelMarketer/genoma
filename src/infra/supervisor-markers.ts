@@ -2,7 +2,7 @@ export const SUPERVISOR_HINT_ENV_VARS = [
   // macOS launchd
   "LAUNCH_JOB_LABEL",
   "LAUNCH_JOB_NAME",
-  // Genoma service env markers
+  // Genome service env markers
   "GENOMA_LAUNCHD_LABEL",
   "GENOMA_SYSTEMD_UNIT",
   "GENOMA_SERVICE_MARKER",

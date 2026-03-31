@@ -5,7 +5,7 @@
  * If the token appears in the LLM output, it means the model leaked
  * internal prompt content — the output is flagged and redacted.
  *
- * @since 2026-03-04 | Genoma v3.0
+ * @since 2026-03-04 | Genome v3.0
  */
 
 import { randomBytes } from "node:crypto";

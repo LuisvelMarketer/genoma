@@ -5,7 +5,7 @@
  * the AI agent's behavior through prompt injection techniques.
  *
  * @author DeepAgent (adapted from Orbis security layer)
- * @since 2026-03-03 | Genoma v3.0
+ * @since 2026-03-03 | Genome v3.0
  */
 
 import { sha256 } from "../gsep/utils/hash.js";
