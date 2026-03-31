@@ -69,7 +69,11 @@ export async function dispatchInboundMessage(params: {
   const shield = await getShield();
   const messageText = finalized.BodyForAgent || finalized.Body;
   if (shield && messageText) {
-    const channel = ((finalized as Record<string, unknown>).Channel as string) ?? "unknown";
+    const channel =
+      ((finalized as Record<string, unknown>).Channel as string) ??
+      ((finalized as Record<string, unknown>).ChannelType as string) ??
+      ((finalized as Record<string, unknown>).Source as string) ??
+      "cli";
     const userId = finalized.From ?? "anonymous";
     const shieldResult = await shield.processInbound(messageText, channel, userId);
 
