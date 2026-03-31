@@ -12,6 +12,30 @@ import {
 import type { FinalizedMsgContext, MsgContext } from "./templating.js";
 import type { GetReplyOptions } from "./types.js";
 
+// ─── GSEP Genome Shield — auto-activates if @gsep/core is installed ──
+let _gsepShield: Awaited<ReturnType<typeof import("../gsep/index.js").initGenomeShield>> | null =
+  null;
+let _gsepInitAttempted = false;
+
+async function getShield() {
+  if (_gsepShield) {
+    return _gsepShield;
+  }
+  if (_gsepInitAttempted) {
+    return null;
+  }
+  _gsepInitAttempted = true;
+  try {
+    const { initGenomeShield } = await import("../gsep/index.js");
+    _gsepShield = await initGenomeShield({ profile: "secure" });
+    console.log("[Genome Shield] 🧬 Active — Secure profile. PII redaction ON. Audit ON.");
+    return _gsepShield;
+  } catch {
+    // @gsep/core not installed or init failed — continue without shield
+    return null;
+  }
+}
+
 export type DispatchInboundResult = DispatchFromConfigResult;
 
 export async function withReplyDispatcher<T>(params: {
@@ -41,15 +65,45 @@ export async function dispatchInboundMessage(params: {
 }): Promise<DispatchInboundResult> {
   const finalized = finalizeInboundContext(params.ctx);
 
-  // ── Prompt injection scan (covers Telegram, Discord, Slack, etc.) ──
+  // ── GSEP Genome Shield: PII redaction + security scan ──────────────
+  const shield = await getShield();
   const messageText = finalized.BodyForAgent || finalized.Body;
-  if (messageText) {
+  if (shield && messageText) {
+    const channel = ((finalized as Record<string, unknown>).Channel as string) ?? "unknown";
+    const userId = finalized.From ?? "anonymous";
+    const shieldResult = await shield.processInbound(messageText, channel, userId);
+
+    if (!shieldResult.allowed) {
+      console.log(`[Genome Shield] Blocked: ${shieldResult.blockReason}`);
+      params.dispatcher.sendFinalReply({
+        text: shieldResult.blockReason ?? "Message blocked by security policy.",
+      });
+      return await withReplyDispatcher({
+        dispatcher: params.dispatcher,
+        run: async () => ({ queuedFinal: true, counts: { final: 1, block: 0, tool: 0 } }),
+      });
+    }
+
+    // Replace message with PII-redacted version (mutate the finalized context)
+    if (shieldResult.sanitized !== messageText) {
+      const ctx = finalized as Record<string, unknown>;
+      if (ctx.BodyForAgent) {
+        ctx.BodyForAgent = shieldResult.sanitized;
+      } else {
+        ctx.Body = shieldResult.sanitized;
+      }
+    }
+  }
+
+  // ── Prompt injection scan (covers Telegram, Discord, Slack, etc.) ──
+  const messageTextForScan = finalized.BodyForAgent || finalized.Body;
+  if (messageTextForScan) {
     const { scanInboundMessage } = await import("../security/scan-inbound-message.js");
     const senderKey =
       ((finalized as Record<string, unknown>).SenderNumber as string | undefined) ||
       finalized.From ||
       undefined;
-    const injectionScan = scanInboundMessage(messageText, senderKey);
+    const injectionScan = scanInboundMessage(messageTextForScan, senderKey);
     if (!injectionScan.allowed) {
       console.log(
         `[INJECTION_GUARD] Blocked inbound message from ${senderKey ?? "unknown"}: ${injectionScan.reason}`,
