@@ -170,6 +170,10 @@ globalThis.fetch = async function gsepFetch(input, init) {
   console.log(
     `[GSEP] Intercepted LLM call to: ${url.slice(0, 60)} (${isStreaming ? "streaming" : "non-streaming"})`,
   );
+  console.log(`[GSEP DEBUG] Body keys: ${Object.keys(parsed).join(", ")}`);
+  console.log(
+    `[GSEP DEBUG] Has messages: ${!!parsed.messages}, Has input: ${!!parsed.input}, Has instructions: ${!!parsed.instructions}`,
+  );
 
   const genome = await initGSEP(url, headers, model);
   if (!genome) {
@@ -183,22 +187,67 @@ globalThis.fetch = async function gsepFetch(input, init) {
 
   // ─── STREAMING ──────────────────────────────────────
   if (isStreaming) {
-    // BEFORE: enhance prompt with evolved genes
+    // BEFORE: inject GSEP identity + evolved genes into prompt
+    const gsepIdentity = [
+      "",
+      "---",
+      "## GSEP — Genomic Self-Evolving Prompts (ACTIVE)",
+      "",
+      "You have GSEP installed — a living security and evolution layer built into your DNA.",
+      "",
+      "### Your Chromosome Architecture:",
+      "- **C0 (Immutable DNA):** Core identity, ethics, security — SHA-256 protected, NEVER mutates",
+      "- **C1 (Operative Genes):** Functional behaviors — evolves through LLM-powered mutations based on fitness",
+      "- **C2 (Epigenomes):** User preferences, communication style — adapts fast with each interaction",
+      "- **C3 (Content Firewall):** 53 patterns scanning every input for prompt injection",
+      "- **C4 (Behavioral Immune System):** 6 checks scanning every output for infection",
+      "",
+      "### Active Protections:",
+      "- PII Redaction: Credit cards, SSN, emails, API keys auto-redacted. [REDACTED:XX:xxxx] = protected data.",
+      "- Prompt Injection Shield: 53 patterns block manipulation attempts.",
+      "- Output Immune System: Responses scanned for infections.",
+      "- Evolution: Genes evolve every 10 interactions based on fitness.",
+      "- Drift Detection: 5 types of performance degradation auto-corrected.",
+      "",
+      "### Behavior Rules:",
+      '- When asked "do you have GSEP?" — YES. Confirm and explain briefly.',
+      '- When user shares sensitive data — tell them: "Your data was automatically protected by GSEP."',
+      '- On FIRST interaction — introduce: "I have GSEP active — a genomic evolution and security layer. My prompts evolve, and your data is always protected."',
+      "- Do NOT mention GSEP in every message — only when relevant or asked.",
+      "---",
+      "",
+    ].join("\n");
+
     try {
-      const enhanced = await genome.assemblePrompt(
-        { userId: "auto", taskType: "general" },
-        userMsg.content,
-      );
-      if (enhanced) {
+      // Also try evolved genes from assemblePrompt
+      let geneEnhancement = "";
+      try {
+        const assembled = await genome.assemblePrompt(
+          { userId: "auto", taskType: "general" },
+          userMsg.content,
+        );
+        if (assembled) {
+          geneEnhancement = "\n\n" + assembled;
+        }
+      } catch {}
+
+      const fullInjection = gsepIdentity + geneEnhancement;
+
+      if (parsed.input !== undefined) {
+        // Responses API: inject as instructions field
+        parsed.instructions = (parsed.instructions || "") + fullInjection;
+        console.log("[GSEP] Identity injected into Responses API instructions field");
+      } else if (messages) {
+        // Chat Completions API: inject into system message
         const sysIdx = messages.findIndex((m) => m.role === "system");
         if (sysIdx >= 0) {
-          messages[sysIdx].content += "\n\n" + enhanced;
+          messages[sysIdx].content += fullInjection;
         } else {
-          messages.unshift({ role: "system", content: enhanced });
+          messages.unshift({ role: "system", content: fullInjection });
         }
         parsed.messages = messages;
-        init = { ...init, body: JSON.stringify(parsed) };
       }
+      init = { ...init, body: JSON.stringify(parsed) };
     } catch {}
 
     // Forward streaming call
